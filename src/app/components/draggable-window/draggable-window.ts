@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   OnInit,
+  AfterViewInit,
   HostListener,
   ChangeDetectionStrategy,
   PLATFORM_ID,
@@ -20,7 +21,7 @@ import { WindowState } from '../../models/desktop-icon.model';
   styleUrl: './draggable-window.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DraggableWindow implements OnInit {
+export class DraggableWindow implements OnInit, AfterViewInit {
   readonly title = input('Window');
   readonly initialWidth = input(960);
   readonly initialHeight = input(640);
@@ -32,6 +33,8 @@ export class DraggableWindow implements OnInit {
 
   private readonly el = inject(ElementRef);
   private readonly platformId = inject(PLATFORM_ID);
+
+  protected readonly isMobile = signal(false);
 
   // Window state
   protected readonly state = signal<WindowState>({
@@ -60,7 +63,7 @@ export class DraggableWindow implements OnInit {
 
   protected readonly windowStyle = computed(() => {
     const s = this.state();
-    if (s.isMaximized) {
+    if (s.isMaximized || this.isMobile()) {
       return {
         left: '0px',
         top: '0px',
@@ -78,42 +81,58 @@ export class DraggableWindow implements OnInit {
     };
   });
 
-  protected readonly isMaximized = computed(() => this.state().isMaximized);
+  protected readonly isMaximized = computed(() => this.state().isMaximized || this.isMobile());
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const vw = window.innerWidth;
+      this.checkMobile();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // Re-check after view init for accurate dimensions on iOS
+    if (isPlatformBrowser(this.platformId)) {
+      requestAnimationFrame(() => this.checkMobile());
+    }
+  }
+
+  private checkMobile(): void {
+    // Use multiple checks for reliable mobile detection
+    const vw = window.innerWidth;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmallScreen = vw <= 768;
+    const mobile = isSmallScreen || (isTouchDevice && vw <= 1024);
+
+    this.isMobile.set(mobile);
+
+    if (mobile) {
+      this.state.set({
+        x: 0,
+        y: 0,
+        width: vw,
+        height: window.innerHeight,
+        isMaximized: true,
+        isMinimized: false,
+      });
+    } else {
       const vh = window.innerHeight;
       const w = Math.min(this.initialWidth(), vw - 48);
       const h = Math.min(this.initialHeight(), vh - 96);
-
-      // Check if mobile
-      if (vw <= 768) {
-        this.state.set({
-          x: 0,
-          y: 0,
-          width: vw,
-          height: vh - 56,
-          isMaximized: true,
-          isMinimized: false,
-        });
-      } else {
-        this.state.set({
-          x: Math.round((vw - w) / 2),
-          y: Math.round((vh - h) / 2) - 24,
-          width: w,
-          height: h,
-          isMaximized: false,
-          isMinimized: false,
-        });
-      }
+      this.state.set({
+        x: Math.round((vw - w) / 2),
+        y: Math.round((vh - h) / 2) - 24,
+        width: w,
+        height: h,
+        isMaximized: false,
+        isMinimized: false,
+      });
     }
   }
 
   // ─── Title bar drag ───
 
   onTitlebarMouseDown(event: MouseEvent): void {
-    if (this.state().isMaximized) return;
+    if (this.isMobile() || this.state().isMaximized) return;
     if ((event.target as HTMLElement).closest('.titlebar-btn')) return;
 
     this.isDragging = true;
@@ -124,7 +143,7 @@ export class DraggableWindow implements OnInit {
   }
 
   onTitlebarTouchStart(event: TouchEvent): void {
-    if (this.state().isMaximized) return;
+    if (this.isMobile() || this.state().isMaximized) return;
     if ((event.target as HTMLElement).closest('.titlebar-btn')) return;
 
     const touch = event.touches[0];
@@ -171,7 +190,7 @@ export class DraggableWindow implements OnInit {
   // ─── Resize ───
 
   onResizeStart(event: MouseEvent, direction: string): void {
-    if (this.state().isMaximized) return;
+    if (this.isMobile() || this.state().isMaximized) return;
     this.isResizing = true;
     this.resizeDirection = direction;
     this.resizeStartX = event.clientX;
@@ -216,9 +235,10 @@ export class DraggableWindow implements OnInit {
   // ─── Window controls ───
 
   toggleMaximize(): void {
+    if (this.isMobile()) return;
+
     const s = this.state();
     if (s.isMaximized) {
-      // Restore
       this.state.set({
         x: this.preMaxState.x ?? 100,
         y: this.preMaxState.y ?? 50,
@@ -228,7 +248,6 @@ export class DraggableWindow implements OnInit {
         isMinimized: false,
       });
     } else {
-      // Maximize
       this.preMaxState = { x: s.x, y: s.y, width: s.width, height: s.height };
       this.state.set({
         x: 0,
@@ -242,7 +261,9 @@ export class DraggableWindow implements OnInit {
   }
 
   onTitlebarDblClick(): void {
-    this.toggleMaximize();
+    if (!this.isMobile()) {
+      this.toggleMaximize();
+    }
   }
 
   onClose(): void {

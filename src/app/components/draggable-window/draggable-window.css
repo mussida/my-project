@@ -28,6 +28,7 @@
 .window--maximized {
   border: none;
   box-shadow: none;
+  border-radius: 0 !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -102,6 +103,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 /* ═══ Resize Handles ═══ */
@@ -178,11 +180,31 @@
 /* ═══ Mobile ═══ */
 
 @media (max-width: 768px) {
+  :host {
+    /* Use dvh for iOS Safari dynamic viewport height */
+    height: 100dvh;
+    height: 100vh; /* fallback */
+  }
+
   .window {
     border-radius: 0 !important;
+    /* iOS safe areas */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   .resize-handle {
+    display: none;
+  }
+
+  .window__titlebar {
+    height: 44px;
+    padding: 0 8px 0 12px;
+  }
+
+  /* Hide minimize/maximize on mobile, keep close */
+  .titlebar-btn--minimize,
+  .titlebar-btn--maximize {
     display: none;
   }
 }
