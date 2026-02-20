@@ -1,0 +1,111 @@
+<div class="explorer">
+  <!-- ═══ Title Bar ═══ -->
+  <header class="explorer__titlebar">
+    <div class="explorer__titlebar-left">
+      <svg class="explorer__titlebar-icon" viewBox="0 0 20 20" fill="none">
+        <path d="M2 5h6l2-2h8v14H2z" fill="#fdd835" stroke="#e6ac00" stroke-width="0.5" />
+      </svg>
+      <span class="explorer__titlebar-text">{{ title() }}</span>
+    </div>
+    <div class="explorer__titlebar-controls">
+      <button class="titlebar-btn titlebar-btn--minimize" (click)="minimized.emit()" aria-label="Minimize">
+        <svg viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6" stroke="currentColor" stroke-width="1.2" /></svg>
+      </button>
+      <button class="titlebar-btn titlebar-btn--maximize" (click)="maximized.emit()" aria-label="Maximize">
+        <svg viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="none" /></svg>
+      </button>
+      <button class="titlebar-btn titlebar-btn--close" (click)="closed.emit()" aria-label="Close">
+        <svg viewBox="0 0 12 12">
+          <line x1="2.5" y1="2.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
+          <line x1="9.5" y1="2.5" x2="2.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══ Navigation Bar ═══ -->
+  <div class="explorer__navbar">
+    <div class="explorer__nav-buttons">
+      <button class="nav-btn" (click)="backClicked.emit()" aria-label="Back">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button class="nav-btn" disabled aria-label="Forward">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button class="nav-btn" aria-label="Up">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M3 10l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button class="nav-btn" aria-label="Refresh">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M13 8A5 5 0 1 1 8 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+          <path d="M10 1l-2 2 2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+
+    <app-explorer-breadcrumb
+      [items]="breadcrumbs()"
+      (itemClicked)="breadcrumbClicked.emit($event)"
+    />
+
+    <div class="explorer__search">
+      <svg viewBox="0 0 16 16" fill="none">
+        <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2" />
+        <line x1="10" y1="10" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+      </svg>
+      <span>Cerca in {{ title() }}</span>
+    </div>
+  </div>
+
+  <!-- ═══ Toolbar ═══ -->
+  <div class="explorer__toolbar">
+    <button class="toolbar-btn">
+      <svg viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="1.5" fill="currentColor" />
+        <path d="M8 2v2m0 8v2m-6-6h2m8 0h2m-1.5-4.5l-1.4 1.4m-6.2 6.2l-1.4 1.4m0-9l1.4 1.4m6.2 6.2l1.4 1.4" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+      </svg>
+      Nuovo
+    </button>
+    <div class="toolbar-separator"></div>
+    <button class="toolbar-btn">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M8 1v6m0 0l3-3m-3 3L5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+        <path d="M2 11v3h12v-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      Ordina
+    </button>
+    <button class="toolbar-btn">
+      <svg viewBox="0 0 16 16" fill="none">
+        <rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1" />
+        <rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1" />
+        <rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1" />
+        <rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1" />
+      </svg>
+      Visualizza
+    </button>
+  </div>
+
+  <!-- ═══ Content Area ═══ -->
+  <div class="explorer__body">
+    @if (showSidebar()) {
+      <app-explorer-sidebar
+        [albums]="albums()"
+        (albumClicked)="sidebarAlbumClicked.emit($event)"
+      />
+    }
+    <div class="explorer__content">
+      <ng-content />
+    </div>
+  </div>
+
+  <!-- ═══ Status Bar ═══ -->
+  <footer class="explorer__statusbar">
+    <ng-content select="[statusbar]" />
+  </footer>
+</div>

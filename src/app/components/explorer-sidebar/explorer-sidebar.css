@@ -1,0 +1,136 @@
+:host {
+  display: block;
+  flex-shrink: 0;
+}
+
+.sidebar {
+  width: 220px;
+  height: 100%;
+  padding: 8px 4px;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+/* ─── Section ─── */
+
+.sidebar__section {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.sidebar__section--pinned {
+  margin-top: auto;
+}
+
+.sidebar__divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 6px 8px;
+}
+
+.sidebar__heading {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.sidebar__heading svg {
+  width: 10px;
+  height: 10px;
+  opacity: 0.6;
+}
+
+/* ─── Item ─── */
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12.5px;
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.1s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.sidebar__item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sidebar__item--active,
+.sidebar__item--selected {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.sidebar__item--album {
+  padding-left: 28px;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 140px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .sidebar__section {
+    flex-direction: row;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .sidebar__section--pinned {
+    display: none;
+  }
+
+  .sidebar__heading {
+    display: none;
+  }
+
+  .sidebar__item--album {
+    padding-left: 12px;
+  }
+
+  .sidebar__divider {
+    display: none;
+  }
+}

@@ -1,0 +1,164 @@
+:host {
+  display: block;
+}
+
+/* ═══ Grid Layouts ═══ */
+
+.grid {
+  display: grid;
+  gap: 8px;
+}
+
+.grid--albums {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.grid--photos {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+
+/* ═══ Grid Item (shared) ═══ */
+
+.grid__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: all 0.12s ease;
+  font-family: inherit;
+  text-align: center;
+}
+
+.grid__item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.grid__item:active {
+  background: rgba(0, 120, 215, 0.25);
+  border-color: rgba(0, 120, 215, 0.5);
+}
+
+.grid__label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8px;
+  line-height: 1.3;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grid__sublabel {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 2px;
+}
+
+/* ═══ Album Thumbnail ═══ */
+
+.grid__album-thumbnail {
+  width: 120px;
+  height: 90px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.grid__album-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.grid__item:hover .grid__album-thumbnail img {
+  transform: scale(1.05);
+}
+
+.grid__album-overlay {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 24px;
+  height: 20px;
+  opacity: 0.7;
+}
+
+.grid__album-overlay svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ═══ Photo Thumbnail ═══ */
+
+.grid__photo-thumbnail {
+  width: 130px;
+  height: 95px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.grid__photo-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease, opacity 0.3s;
+}
+
+.grid__item:hover .grid__photo-thumbnail img {
+  transform: scale(1.05);
+}
+
+/* Placeholder while loading */
+.grid__photo-thumbnail img[src=''] {
+  opacity: 0;
+}
+
+/* ═══ Responsive ═══ */
+
+@media (max-width: 768px) {
+  .grid--albums {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .grid--photos {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .grid__album-thumbnail {
+    width: 100px;
+    height: 75px;
+  }
+
+  .grid__photo-thumbnail {
+    width: 100%;
+    height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid--albums {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid--photos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid__item {
+    padding: 8px 4px 6px;
+  }
+
+  .grid__label {
+    font-size: 11px;
+  }
+}

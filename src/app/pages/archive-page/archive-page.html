@@ -1,0 +1,24 @@
+<div class="archive-page">
+  <app-explorer-window
+    [title]="windowTitle()"
+    [breadcrumbs]="breadcrumbs()"
+    [albums]="albums()"
+    [showSidebar]="true"
+    (closed)="onWindowClosed()"
+    (backClicked)="onBackClicked()"
+    (breadcrumbClicked)="onBreadcrumbClicked($event)"
+    (sidebarAlbumClicked)="onAlbumOpened($event)"
+  >
+    <!-- Main content area -->
+    <app-explorer-grid
+      [albums]="albums()"
+      [photos]="currentPhotos()"
+      [viewMode]="viewMode()"
+      (albumOpened)="onAlbumOpened($event)"
+      (photoOpened)="onPhotoOpened($event)"
+    />
+
+    <!-- Status bar content -->
+    <span statusbar>{{ statusText() }}</span>
+  </app-explorer-window>
+</div>

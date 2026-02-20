@@ -1,0 +1,55 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.archive-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  /* Same wallpaper as homepage */
+  background:
+    linear-gradient(
+      180deg,
+      #6b7d8e 0%,
+      #8fa4b5 15%,
+      #c8d5df 30%,
+      #d9dfe4 40%,
+      rgba(255, 255, 255, 0.6) 45%,
+      rgba(200, 210, 220, 0.4) 55%,
+      #7a8e7a 60%,
+      #4a5e4a 70%,
+      #2d3d2d 85%,
+      #1a2a1a 100%
+    );
+  /* Replace with actual photo: */
+  /* background: url('/assets/images/wallpaper.jpg') center/cover no-repeat; */
+}
+
+/* Window sizing - takes most of the screen */
+:host ::ng-deep app-explorer-window {
+  width: 100%;
+  max-width: 960px;
+  height: 100%;
+  max-height: 640px;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+  .archive-page {
+    padding: 0;
+    padding-bottom: 56px; /* taskbar */
+  }
+
+  :host ::ng-deep app-explorer-window {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
