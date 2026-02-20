@@ -1,0 +1,73 @@
+<nav class="taskbar">
+  <!-- Start Button -->
+  <button class="start-btn" aria-label="Start">
+    <svg viewBox="0 0 18 18" fill="none">
+      <rect x="1" y="1" width="7" height="7" fill="white" opacity="0.9" />
+      <rect x="10" y="1" width="7" height="7" fill="white" opacity="0.9" />
+      <rect x="1" y="10" width="7" height="7" fill="white" opacity="0.9" />
+      <rect x="10" y="10" width="7" height="7" fill="white" opacity="0.9" />
+    </svg>
+  </button>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <svg viewBox="0 0 16 16" fill="none">
+      <circle cx="6.5" cy="6.5" r="5" stroke="white" stroke-width="1.3" />
+      <line x1="10.5" y1="10.5" x2="14.5" y2="14.5" stroke="white" stroke-width="1.3" stroke-linecap="round" />
+    </svg>
+    <span>Search</span>
+  </div>
+
+  <!-- Pinned Apps -->
+  <div class="taskbar-apps">
+    <button class="taskbar-btn active" aria-label="File Explorer">
+      <svg viewBox="0 0 20 20" fill="none">
+        <path d="M2 5h6l2-2h8v14H2z" fill="#fdd835" stroke="#e6ac00" stroke-width="0.5" />
+      </svg>
+    </button>
+    <button class="taskbar-btn" aria-label="Browser">
+      <svg viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="8" stroke="white" stroke-width="1.2" opacity="0.7" />
+        <ellipse cx="10" cy="10" rx="4" ry="8" stroke="white" stroke-width="1.2" opacity="0.7" />
+        <line x1="2" y1="10" x2="18" y2="10" stroke="white" stroke-width="1.2" opacity="0.7" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- System Tray -->
+  <div class="system-tray">
+    <!-- Hidden icons chevron -->
+    <div class="tray-item">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.3" stroke-linecap="round" />
+      </svg>
+    </div>
+
+    <!-- Wi-Fi -->
+    <div class="tray-item">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M1 6c4-4 10-4 14 0" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.5" />
+        <path d="M3.5 9c2.5-3 6.5-3 9 0" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.7" />
+        <path d="M6 12c1.2-2 3.8-2 4 0" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.9" />
+      </svg>
+    </div>
+
+    <!-- Volume -->
+    <div class="tray-item">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M2 6h2.5L8 3v10L4.5 10H2z" fill="white" opacity="0.8" />
+        <path d="M10.5 5.5c1 1 1 4 0 5" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.6" />
+        <path d="M12.5 3.5c2 2 2 7 0 9" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+      </svg>
+    </div>
+
+    <!-- Clock -->
+    <div class="tray-clock">
+      <span class="tray-clock__time">{{ currentTime() }}</span>
+      <span class="tray-clock__date">{{ currentDate() }}</span>
+    </div>
+
+    <!-- Show Desktop sliver -->
+    <button class="show-desktop" aria-label="Show desktop"></button>
+  </div>
+</nav>

@@ -1,0 +1,161 @@
+:host {
+  display: contents;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 82px;
+  padding: 6px 4px 4px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.12s ease;
+  text-decoration: none;
+  position: relative;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: iconAppear 0.4s ease forwards;
+}
+
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.desktop-icon:active,
+.desktop-icon.selected {
+  background: rgba(0, 120, 215, 0.35);
+  border-color: rgba(0, 120, 215, 0.7);
+}
+
+/* ─── Graphic container ─── */
+
+.desktop-icon__graphic {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.opening .desktop-icon__graphic {
+  animation: iconBounce 0.3s ease;
+}
+
+/* ─── Label ─── */
+
+.desktop-icon__label {
+  font-size: 11.5px;
+  font-weight: 400;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.25;
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.8),
+    0 0 6px rgba(0, 0, 0, 0.4);
+  max-width: 74px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ─── Icon SVG sizing ─── */
+
+.icon-svg {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+}
+
+.icon-folder {
+  width: 48px;
+  height: 40px;
+}
+
+.icon-folder .folder-tab {
+  fill: #1565c0;
+}
+
+.icon-folder .folder-back {
+  fill: #1e88e5;
+}
+
+.icon-folder .folder-front {
+  fill: #42a5f5;
+}
+
+.icon-blog {
+  width: 42px;
+  height: 48px;
+}
+
+.icon-about {
+  width: 44px;
+  height: 44px;
+}
+
+.icon-bin {
+  width: 44px;
+  height: 48px;
+}
+
+/* ─── Animations ─── */
+
+@keyframes iconAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes iconBounce {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.85);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+  .desktop-icon {
+    width: 76px;
+  }
+
+  .desktop-icon__graphic {
+    width: 48px;
+    height: 48px;
+  }
+
+  .desktop-icon__label {
+    font-size: 10.5px;
+  }
+
+  .icon-folder {
+    width: 40px;
+    height: 34px;
+  }
+
+  .icon-blog {
+    width: 36px;
+    height: 42px;
+  }
+
+  .icon-about {
+    width: 38px;
+    height: 38px;
+  }
+
+  .icon-bin {
+    width: 38px;
+    height: 42px;
+  }
+}

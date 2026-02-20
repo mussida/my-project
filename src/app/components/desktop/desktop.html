@@ -1,0 +1,43 @@
+<main
+  class="desktop"
+  (click)="onDesktopClick($event)"
+  (mousedown)="onDesktopMouseDown($event)"
+>
+  <!-- Auto-positioned icons -->
+  @for (icon of icons(); track icon.id) {
+    @if (icon.position !== 'bottom-right') {
+      <app-desktop-icon
+        [config]="icon"
+        [selected]="isSelected(icon.id)"
+        [animationDelay]="getAnimationDelay($index)"
+        (iconClicked)="onIconClicked($event)"
+        (iconDblClicked)="onIconDblClicked($event)"
+      />
+    }
+  }
+
+  <!-- Bottom-right positioned icons (Cestino) -->
+  @for (icon of icons(); track icon.id) {
+    @if (icon.position === 'bottom-right') {
+      <app-desktop-icon
+        class="icon-bottom-right"
+        [config]="icon"
+        [selected]="isSelected(icon.id)"
+        [animationDelay]="getAnimationDelay($index)"
+        (iconClicked)="onIconClicked($event)"
+        (iconDblClicked)="onIconDblClicked($event)"
+      />
+    }
+  }
+
+  <!-- Selection rectangle -->
+  @if (selectionVisible()) {
+    <div
+      class="selection-rect"
+      [style.left.px]="selectionRect().left"
+      [style.top.px]="selectionRect().top"
+      [style.width.px]="selectionRect().width"
+      [style.height.px]="selectionRect().height"
+    ></div>
+  }
+</main>

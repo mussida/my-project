@@ -1,0 +1,60 @@
+@if (visible()) {
+  <div
+    class="context-menu"
+    [style.left.px]="posX()"
+    [style.top.px]="posY()"
+  >
+    @for (item of items; track item.label) {
+      <button class="context-menu__item" (click)="onItemClick(item)">
+        <!-- Grid icon -->
+        @if (item.icon === 'grid') {
+          <svg viewBox="0 0 16 16" fill="none">
+            <rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2" />
+            <rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2" />
+            <rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2" />
+            <rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2" />
+          </svg>
+        }
+
+        <!-- Sort icon -->
+        @if (item.icon === 'sort') {
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M8 1v6m0 0l3-3m-3 3L5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+            <rect x="1" y="9" width="14" height="6" rx="1" stroke="currentColor" stroke-width="1.2" />
+          </svg>
+        }
+
+        <!-- Refresh icon -->
+        @if (item.icon === 'refresh') {
+          <svg viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2" />
+            <path d="M8 5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        }
+
+        <!-- Display icon -->
+        @if (item.icon === 'display') {
+          <svg viewBox="0 0 16 16" fill="none">
+            <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2" />
+            <path d="M6 6l4 4m0-4l-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        }
+
+        <!-- More icon -->
+        @if (item.icon === 'more') {
+          <svg viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="3" r="1.5" fill="currentColor" />
+            <circle cx="8" cy="8" r="1.5" fill="currentColor" />
+            <circle cx="8" cy="13" r="1.5" fill="currentColor" />
+          </svg>
+        }
+
+        {{ item.label }}
+      </button>
+
+      @if (item.dividerAfter) {
+        <div class="context-menu__divider"></div>
+      }
+    }
+  </div>
+}

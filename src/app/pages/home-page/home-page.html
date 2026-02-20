@@ -1,0 +1,19 @@
+<!-- Boot Screen -->
+@if (booting()) {
+  <app-boot-screen (finished)="onBootFinished()" />
+}
+
+<!-- Wallpaper Background -->
+<div class="wallpaper"></div>
+
+<!-- Desktop Area -->
+<app-desktop
+  [icons]="desktopIcons"
+  (iconOpened)="onIconOpened($event)"
+/>
+
+<!-- Taskbar -->
+<app-taskbar />
+
+<!-- Context Menu (right-click) -->
+<app-context-menu />

@@ -1,0 +1,238 @@
+:host {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transform: translateY(100%);
+  animation: taskbarSlide 0.5s ease 0.05s forwards;
+}
+
+.taskbar {
+  height: var(--taskbar-height, 48px);
+  background: rgba(20, 20, 24, 0.82);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Start button ─── */
+
+.start-btn {
+  width: 48px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  transition: background 0.15s;
+  color: inherit;
+}
+
+.start-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.start-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ─── Search bar ─── */
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  margin: 0 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  min-width: 200px;
+  transition: all 0.2s;
+}
+
+.search-bar:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.search-bar svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.search-bar span {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
+/* ─── Pinned apps ─── */
+
+.taskbar-apps {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 8px;
+  flex: 1;
+}
+
+.taskbar-btn {
+  width: 42px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  transition: background 0.15s;
+  position: relative;
+}
+
+.taskbar-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.taskbar-btn:active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.taskbar-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.taskbar-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 3px;
+  background: #60cdff;
+  border-radius: 2px;
+}
+
+/* ─── System tray ─── */
+
+.system-tray {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  padding: 0 12px;
+  height: 100%;
+}
+
+.tray-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.tray-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tray-item svg {
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+}
+
+.tray-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.tray-clock:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tray-clock__time {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.2;
+}
+
+.tray-clock__date {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.2;
+}
+
+.show-desktop {
+  width: 6px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.15s;
+}
+
+.show-desktop:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ─── Animation ─── */
+
+@keyframes taskbarSlide {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+  .taskbar {
+    height: 56px;
+  }
+
+  .search-bar {
+    min-width: 120px;
+    flex: 1;
+    max-width: 200px;
+  }
+
+  .search-bar span {
+    font-size: 11.5px;
+  }
+
+  .taskbar-apps {
+    gap: 0;
+  }
+
+  .taskbar-btn {
+    width: 38px;
+  }
+
+  .system-tray {
+    padding: 0 8px;
+    gap: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-bar {
+    display: none;
+  }
+}
