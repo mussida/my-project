@@ -1,11 +1,10 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { ContextMenu } from '../../components/context-menu/context-menu';
-import { Taskbar } from '../../components/taskbar/taskbar';
-import { Desktop } from '../../components/desktop/desktop';
 import { BootScreen } from '../../components/boot-screen/boot-screen';
+import { Desktop } from '../../components/desktop/desktop';
+import { Taskbar } from '../../components/taskbar/taskbar';
+import { ContextMenu } from '../../components/context-menu/context-menu';
 import { DesktopIconConfig } from '../../models/desktop-icon.model';
-
 
 @Component({
   selector: 'app-home-page',

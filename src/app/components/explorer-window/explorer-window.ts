@@ -16,9 +16,6 @@ export class ExplorerWindow {
   readonly albums = input<Album[]>([]);
   readonly showSidebar = input(true);
 
-  readonly closed = output<void>();
-  readonly minimized = output<void>();
-  readonly maximized = output<void>();
   readonly breadcrumbClicked = output<BreadcrumbItem>();
   readonly sidebarAlbumClicked = output<Album>();
   readonly backClicked = output<void>();

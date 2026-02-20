@@ -3,17 +3,14 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 
-.archive-page {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+.archive-wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
 
-  /* Same wallpaper as homepage */
   background:
     linear-gradient(
       180deg,
@@ -32,24 +29,10 @@
   /* background: url('/assets/images/wallpaper.jpg') center/cover no-repeat; */
 }
 
-/* Window sizing - takes most of the screen */
-:host ::ng-deep app-explorer-window {
-  width: 100%;
-  max-width: 960px;
-  height: 100%;
-  max-height: 640px;
-}
-
-/* ─── Responsive ─── */
-
-@media (max-width: 768px) {
-  .archive-page {
-    padding: 0;
-    padding-bottom: 56px; /* taskbar */
-  }
-
-  :host ::ng-deep app-explorer-window {
-    max-width: 100%;
-    max-height: 100%;
-  }
+.archive-wallpaper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.15) 100%);
+  pointer-events: none;
 }

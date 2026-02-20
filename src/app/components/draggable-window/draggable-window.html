@@ -1,0 +1,61 @@
+<div
+  class="window"
+  [class.window--maximized]="isMaximized()"
+  [style.left]="windowStyle().left"
+  [style.top]="windowStyle().top"
+  [style.width]="windowStyle().width"
+  [style.height]="windowStyle().height"
+  [style.border-radius]="windowStyle().borderRadius"
+>
+  <!-- ═══ Title Bar (drag handle) ═══ -->
+  <header
+    class="window__titlebar"
+    (mousedown)="onTitlebarMouseDown($event)"
+    (touchstart)="onTitlebarTouchStart($event)"
+    (dblclick)="onTitlebarDblClick()"
+  >
+    <div class="window__titlebar-left">
+      <ng-content select="[titleIcon]" />
+      <span class="window__titlebar-text">{{ title() }}</span>
+    </div>
+    <div class="window__titlebar-controls">
+      <button class="titlebar-btn titlebar-btn--minimize" (click)="onMinimize()" aria-label="Minimize">
+        <svg viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6" stroke="currentColor" stroke-width="1.2" /></svg>
+      </button>
+      <button class="titlebar-btn titlebar-btn--maximize" (click)="toggleMaximize()" aria-label="Maximize">
+        @if (isMaximized()) {
+          <!-- Restore icon -->
+          <svg viewBox="0 0 12 12">
+            <rect x="3.5" y="0.5" width="8" height="8" rx="0.5" stroke="currentColor" stroke-width="1" fill="none" />
+            <rect x="0.5" y="3.5" width="8" height="8" rx="0.5" stroke="currentColor" stroke-width="1" fill="rgba(32,32,36,0.95)" />
+          </svg>
+        } @else {
+          <svg viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="none" /></svg>
+        }
+      </button>
+      <button class="titlebar-btn titlebar-btn--close" (click)="onClose()" aria-label="Close">
+        <svg viewBox="0 0 12 12">
+          <line x1="2.5" y1="2.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
+          <line x1="9.5" y1="2.5" x2="2.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══ Content ═══ -->
+  <div class="window__body">
+    <ng-content />
+  </div>
+
+  <!-- ═══ Resize handles ═══ -->
+  @if (!isMaximized()) {
+    <div class="resize-handle resize-n" (mousedown)="onResizeStart($event, 'n')"></div>
+    <div class="resize-handle resize-s" (mousedown)="onResizeStart($event, 's')"></div>
+    <div class="resize-handle resize-e" (mousedown)="onResizeStart($event, 'e')"></div>
+    <div class="resize-handle resize-w" (mousedown)="onResizeStart($event, 'w')"></div>
+    <div class="resize-handle resize-ne" (mousedown)="onResizeStart($event, 'ne')"></div>
+    <div class="resize-handle resize-nw" (mousedown)="onResizeStart($event, 'nw')"></div>
+    <div class="resize-handle resize-se" (mousedown)="onResizeStart($event, 'se')"></div>
+    <div class="resize-handle resize-sw" (mousedown)="onResizeStart($event, 'sw')"></div>
+  }
+</div>

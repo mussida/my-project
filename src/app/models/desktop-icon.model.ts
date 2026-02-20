@@ -28,3 +28,12 @@ export interface BreadcrumbItem {
   label: string;
   route: string | null;
 }
+
+export interface WindowState {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  isMaximized: boolean;
+  isMinimized: boolean;
+}

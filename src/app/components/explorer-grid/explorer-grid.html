@@ -1,16 +1,14 @@
 @if (viewMode() === 'albums') {
   <div class="grid grid--albums">
     @for (album of albums(); track album.id) {
-      <button class="grid__item grid__album" (dblclick)="onAlbumDblClick(album)">
+      <button
+        class="grid__item grid__album"
+        [class.grid__item--selected]="selectedId() === album.id"
+        (click)="onAlbumClick(album)"
+        (dblclick)="onAlbumDblClick(album)"
+      >
         <div class="grid__album-thumbnail">
           <img [src]="album.coverUrl" [alt]="album.name" loading="lazy" />
-          <div class="grid__album-overlay">
-            <svg viewBox="0 0 48 40">
-              <path d="M2 6h14l3-4h-14z" fill="#e6ac00" />
-              <rect x="1" y="6" width="46" height="32" rx="2" fill="#fdd835" />
-              <rect x="1" y="12" width="46" height="26" rx="2" fill="#ffe066" />
-            </svg>
-          </div>
         </div>
         <span class="grid__label">{{ album.name }}</span>
         <span class="grid__sublabel">{{ album.photoCount }} foto</span>
@@ -21,8 +19,13 @@
 
 @if (viewMode() === 'photos') {
   <div class="grid grid--photos">
-    @for (photo of photos(); track photo.id) {
-      <button class="grid__item grid__photo" (dblclick)="onPhotoDblClick(photo)">
+    @for (photo of photos(); track photo.id; let i = $index) {
+      <button
+        class="grid__item grid__photo"
+        [class.grid__item--selected]="selectedId() === photo.id"
+        (click)="onPhotoClick(photo, i)"
+        (dblclick)="onPhotoDblClick(photo)"
+      >
         <div class="grid__photo-thumbnail">
           <img [src]="photo.thumbnailUrl" [alt]="photo.name" loading="lazy" />
         </div>

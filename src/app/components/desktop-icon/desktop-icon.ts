@@ -17,10 +17,28 @@ export class DesktopIcon {
 
   protected readonly opening = signal(false);
 
+  private lastClickTime = 0;
+
+  /**
+   * Unified click handler for both desktop and mobile.
+   * Two rapid taps within 500ms = open (double click).
+   */
   onClick(event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    this.iconClicked.emit(this.config());
+
+    const now = Date.now();
+    if (now - this.lastClickTime < 500) {
+      // Double tap → open
+      this.opening.set(true);
+      this.iconDblClicked.emit(this.config());
+      setTimeout(() => this.opening.set(false), 400);
+      this.lastClickTime = 0;
+    } else {
+      // Single tap → select
+      this.iconClicked.emit(this.config());
+      this.lastClickTime = now;
+    }
   }
 
   onDblClick(event: MouseEvent): void {

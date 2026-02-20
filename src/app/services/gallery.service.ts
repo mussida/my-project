@@ -1,60 +1,44 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, shareReplay } from 'rxjs';
 import { Album, Photo } from '../models/desktop-icon.model';
+import { environment } from '../environments/environment';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class GalleryService {
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl;
+
+  // Cache albums observable so we don't re-fetch on every navigation
+  private albumsCache$: Observable<Album[]> | null = null;
+
   /**
-   * Mock data — replace with Cloudinary API calls later.
-   *
-   * Cloudinary integration would look like:
-   *   - List folders: GET https://api.cloudinary.com/v1_1/{cloud}/folders/archive
-   *   - List images: GET with folder prefix search
-   *   - Thumbnails: Add /c_thumb,w_300,h_200/ to URL
+   * Fetch all albums from Cloudinary via our proxy.
+   * Results are cached in memory until page reload.
    */
-
-  private readonly mockAlbums: Album[] = [
-    {
-      id: 'matrimonio-roma',
-      name: 'Matrimonio Roma',
-      coverUrl: 'https://picsum.photos/seed/album1/400/300',
-      photoCount: 42,
-      date: '2024-06-15',
-    },
-    {
-      id: 'ritratti-studio',
-      name: 'Ritratti Studio',
-      coverUrl: 'https://picsum.photos/seed/album2/400/300',
-      photoCount: 28,
-      date: '2024-03-22',
-    },
-    {
-      id: 'paesaggi-toscana',
-      name: 'Paesaggi Toscana',
-      coverUrl: 'https://picsum.photos/seed/album3/400/300',
-      photoCount: 35,
-      date: '2023-10-08',
-    },
-  ];
-
-  getAlbums(): Album[] {
-    return this.mockAlbums;
+  getAlbums(): Observable<Album[]> {
+    if (!this.albumsCache$) {
+      this.albumsCache$ = this.http.get<Album[]>(`${this.apiUrl}/api/albums`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.albumsCache$;
   }
 
-  getAlbumById(id: string): Album | undefined {
-    return this.mockAlbums.find((a) => a.id === id);
+  /**
+   * Fetch all photos in a specific album.
+   */
+  getPhotosByAlbum(albumId: string): Observable<Photo[]> {
+    return this.http.get<Photo[]>(`${this.apiUrl}/api/albums/${albumId}/photos`);
   }
 
-  getPhotosByAlbum(albumId: string): Photo[] {
-    // Generate mock photos for any album
-    return Array.from({ length: 12 }, (_, i) => ({
-      id: `${albumId}-${i}`,
-      url: `https://picsum.photos/seed/${albumId}-${i}/1200/800`,
-      thumbnailUrl: `https://picsum.photos/seed/${albumId}-${i}/300/200`,
-      name: `IMG_${String(i + 1).padStart(4, '0')}`,
-      width: 1200,
-      height: 800,
-    }));
+  /**
+   * Invalidate the albums cache (e.g. after a pull-to-refresh).
+   */
+  refreshAlbums(): void {
+    this.albumsCache$ = null;
   }
 }

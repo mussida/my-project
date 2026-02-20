@@ -2,8 +2,6 @@
   display: block;
 }
 
-/* ═══ Grid Layouts ═══ */
-
 .grid {
   display: grid;
   gap: 8px;
@@ -17,7 +15,7 @@
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 }
 
-/* ═══ Grid Item (shared) ═══ */
+/* ═══ Grid Item ═══ */
 
 .grid__item {
   display: flex;
@@ -37,9 +35,15 @@
   border-color: rgba(255, 255, 255, 0.08);
 }
 
+.grid__item--selected {
+  background: rgba(0, 120, 215, 0.25) !important;
+  border-color: rgba(0, 120, 215, 0.5) !important;
+}
+
 .grid__item:active {
-  background: rgba(0, 120, 215, 0.25);
-  border-color: rgba(0, 120, 215, 0.5);
+  background: rgba(0, 120, 215, 0.3);
+  border-color: rgba(0, 120, 215, 0.6);
+  transform: scale(0.97);
 }
 
 .grid__label {
@@ -82,20 +86,6 @@
   transform: scale(1.05);
 }
 
-.grid__album-overlay {
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 24px;
-  height: 20px;
-  opacity: 0.7;
-}
-
-.grid__album-overlay svg {
-  width: 100%;
-  height: 100%;
-}
-
 /* ═══ Photo Thumbnail ═══ */
 
 .grid__photo-thumbnail {
@@ -111,16 +101,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease, opacity 0.3s;
+  transition: transform 0.3s ease;
 }
 
 .grid__item:hover .grid__photo-thumbnail img {
   transform: scale(1.05);
-}
-
-/* Placeholder while loading */
-.grid__photo-thumbnail img[src=''] {
-  opacity: 0;
 }
 
 /* ═══ Responsive ═══ */

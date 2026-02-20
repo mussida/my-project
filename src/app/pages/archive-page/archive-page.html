@@ -1,15 +1,28 @@
-<div class="archive-page">
+<!-- Wallpaper background -->
+<div class="archive-wallpaper"></div>
+
+<!-- Draggable Explorer Window -->
+<app-draggable-window
+  [title]="windowTitle()"
+  [initialWidth]="960"
+  [initialHeight]="640"
+  (closed)="onWindowClosed()"
+>
+  <!-- Title bar icon -->
+  <svg titleIcon viewBox="0 0 20 20" fill="none" style="width:16px;height:16px">
+    <path d="M2 5h6l2-2h8v14H2z" fill="#fdd835" stroke="#e6ac00" stroke-width="0.5" />
+  </svg>
+
+  <!-- Explorer content -->
   <app-explorer-window
     [title]="windowTitle()"
     [breadcrumbs]="breadcrumbs()"
     [albums]="albums()"
     [showSidebar]="true"
-    (closed)="onWindowClosed()"
     (backClicked)="onBackClicked()"
     (breadcrumbClicked)="onBreadcrumbClicked($event)"
     (sidebarAlbumClicked)="onAlbumOpened($event)"
   >
-    <!-- Main content area -->
     <app-explorer-grid
       [albums]="albums()"
       [photos]="currentPhotos()"
@@ -18,7 +31,18 @@
       (photoOpened)="onPhotoOpened($event)"
     />
 
-    <!-- Status bar content -->
     <span statusbar>{{ statusText() }}</span>
   </app-explorer-window>
-</div>
+</app-draggable-window>
+
+<!-- Taskbar -->
+<app-taskbar />
+
+<!-- Photo Lightbox -->
+@if (lightboxOpen()) {
+  <app-photo-lightbox
+    [photos]="currentPhotos()"
+    [startIndex]="lightboxStartIndex()"
+    (closed)="onLightboxClosed()"
+  />
+}

@@ -1,0 +1,84 @@
+<div class="lightbox" (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
+  <!-- Top bar -->
+  <header class="lightbox__header">
+    <span class="lightbox__filename">{{ currentPhoto()?.name }}</span>
+    <div class="lightbox__header-right">
+      <span class="lightbox__counter">{{ counter() }}</span>
+      <button class="lightbox__btn" (click)="close()" aria-label="Close">
+        <svg viewBox="0 0 16 16" fill="none">
+          <line x1="3" y1="3" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" />
+          <line x1="13" y1="3" x2="3" y2="13" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Image area -->
+  <div class="lightbox__image-container" (click)="onBackdropClick($event)">
+    <!-- Previous button -->
+    @if (hasPrev()) {
+      <button class="lightbox__nav lightbox__nav--prev" (click)="prev()" aria-label="Previous">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M15 4l-8 8 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    }
+
+    <!-- Image -->
+    @if (currentPhoto(); as photo) {
+      <img
+        class="lightbox__image"
+        [class.lightbox__image--loading]="isLoading()"
+        [class.lightbox__image--zoomed]="isZoomed()"
+        [src]="photo.url"
+        [alt]="photo.name"
+        (load)="onImageLoad()"
+        (click)="toggleZoom()"
+      />
+    }
+
+    <!-- Loading spinner -->
+    @if (isLoading()) {
+      <div class="lightbox__spinner">
+        <div class="spinner"></div>
+      </div>
+    }
+
+    <!-- Next button -->
+    @if (hasNext()) {
+      <button class="lightbox__nav lightbox__nav--next" (click)="next()" aria-label="Next">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M9 4l8 8-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    }
+  </div>
+
+  <!-- Bottom bar -->
+  <footer class="lightbox__footer">
+    <div class="lightbox__info">
+      <svg viewBox="0 0 16 16" fill="none">
+        <rect x="1" y="3" width="14" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
+      </svg>
+      <span>{{ currentPhoto()?.width }} x {{ currentPhoto()?.height }}</span>
+    </div>
+    <div class="lightbox__zoom-controls">
+      <button class="lightbox__btn lightbox__btn--small" (click)="toggleZoom()">
+        @if (isZoomed()) {
+          <svg viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2" />
+            <line x1="4.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="1.2" />
+            <line x1="11" y1="11" x2="14" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        } @else {
+          <svg viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2" />
+            <line x1="4.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="1.2" />
+            <line x1="7" y1="4.5" x2="7" y2="9.5" stroke="currentColor" stroke-width="1.2" />
+            <line x1="11" y1="11" x2="14" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        }
+      </button>
+    </div>
+  </footer>
+</div>
